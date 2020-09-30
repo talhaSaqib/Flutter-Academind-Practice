@@ -1,12 +1,41 @@
 import 'package:flutter/material.dart';
 
+import './question.dart';
+import './answer.dart';
+
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  void answerQuestion() {
-    print('Answer chosen!');
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _MyAppState();
+  }
+}
+
+class _MyAppState extends State<MyApp> {
+  var _questionIndex = 0;
+  final questions = const [
+    {
+      'questionText': "What's your favourite color?",
+      'answers': ['Black', 'Red', 'Green', 'White'],
+    },
+    {
+      'questionText': "What's your favourite animal?",
+      'answers': ['Rabbit', 'Snake', 'Kangroo', 'Lion'],
+    },
+    {
+      'questionText': "Who's your favourite instructor?",
+      'answers': ['Max', 'Mike', 'Paula', 'John'],
+    },
+  ];
+
+  void _answerQuestion() {
+    setState(() {
+      _questionIndex = _questionIndex + 1;
+    });
+    if (_questionIndex < questions.length) {}
   }
 
   Widget build(BuildContext context) {
@@ -15,14 +44,17 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('My First App'),
         ),
-        body: Column(
-          children: <Widget>[
-            Text('The question!'),
-            RaisedButton(child: Text('Answer 1'), onPressed: answerQuestion),
-            RaisedButton(child: Text('Answer 2'), onPressed: answerQuestion),
-            RaisedButton(child: Text('Answer 3'), onPressed: answerQuestion)
-          ],
-        ),
+        body: _questionIndex < questions.length
+            ? Column(
+                children: <Widget>[
+                  Question(questions[_questionIndex]['questionText']),
+                  ...(questions[_questionIndex]['answers'] as List<String>)
+                      .map((answer) {
+                    return Answer(_answerQuestion, answer);
+                  }).toList()
+                ],
+              )
+            : Center(child: Text('You did it!')),
       ),
     );
   }
