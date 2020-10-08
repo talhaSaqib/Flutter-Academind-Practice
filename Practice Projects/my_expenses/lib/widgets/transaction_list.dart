@@ -13,7 +13,7 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 300,
+      height: 600,
       child: transactions.isEmpty
           ? Column(
               children: <Widget>[
@@ -33,6 +33,7 @@ class TransactionList extends StatelessWidget {
             )
           : ListView.builder(
               itemBuilder: (ctx, index) {
+                // Could be replaced with list tile
                 return Card(
                   child: Row(children: <Widget>[
                     Container(
